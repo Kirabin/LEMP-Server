@@ -3,15 +3,18 @@ service mysql start
 
 # /var/www/html - used for default site if client request doesn't match other sites
 # creating folder for my site
-mkdir /var/www/ft_domain
 
-mv /info.php /var/www/ft_domain/info.php
+
+
+mv /index.php /var/www/wordpress/index.php
 # moving nginx.conf to site file
-mv /nginx.conf /etc/nginx/sites-available/ft_domain
-# activating configuration file by making a link
-ln -s /etc/nginx/sites-available/ft_domain /etc/nginx/sites-enabled/ # ft_domain at the end?
+mv -f /nginx.conf /etc/nginx/sites-available/default
 
 # Setup MYSQL
-service php-fpm start
+mysql -u root --skip-password -e "CREATE DATABASE wordpress"
+mysql -u root --skip-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'password';"
+mysql -u root --skip-password -e "FLUSH PRIVILIGES;"
+
+service php7.3-fpm start # php7.3 is the version used in debian buster
 service nginx start
 bash

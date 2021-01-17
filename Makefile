@@ -6,12 +6,14 @@
 #    By: dmilan <dmilan@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/23 12:04:55 by dmilan            #+#    #+#              #
-#    Updated: 2020/12/23 12:06:45 by dmilan           ###   ########.fr        #
+#    Updated: 2020/12/23 15:03:44 by dmilan           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+all: build run
 
 build:
 	docker build -t ft_image:latest .
 
 run:
-	docker run --rm -it -p 80:80 ft_image:latest  # -p 443:443
+	docker run --rm -it -p 80:80 -p 443:443 ft_image:latest 
