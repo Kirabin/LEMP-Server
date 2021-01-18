@@ -6,14 +6,21 @@ service mysql start
 
 
 
-mv /index.php /var/www/wordpress/index.php
+# mv /index.php /var/www/wordpress/index.php
 # moving nginx.conf to site file
 mv -f /nginx.conf /etc/nginx/sites-available/default
+mv /wp-config.php /var/www/wordpress
+mv /config.inc.php /var/www/wordpress/phpmyadmin/
+# chown -R www-data:www-data /var/www/wordpress/phpmyadmin # ?
 
 # Setup MYSQL
-mysql -u root --skip-password -e "CREATE DATABASE wordpress"
-mysql -u root --skip-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'password';"
-mysql -u root --skip-password -e "FLUSH PRIVILIGES;"
+mysql -u root --skip-password -e "CREATE DATABASE wordpress;"
+# GRANT ALL PRIVILGES could be set to specific SELECT, UPDATE...
+# mysql -u root --skip-password -e "CREATE USER 'super'@'localhost' IDENTIFIED BY 'password';"
+mysql -u root --skip-password -e "GRANT ALL PRIVILEGES ON wordpress.* TO 'root'@'localhost';"
+mysql -u root --skip-password -e "UPDATE mysql.user SET plugin='mysql_native_password' WHERE user='root';"
+mysql -u root --skip-password -e "FLUSH PRIVILEGES;"
+
 
 service php7.3-fpm start # php7.3 is the version used in debian buster
 service nginx start

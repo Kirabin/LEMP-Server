@@ -15,16 +15,15 @@ RUN apt-get install -y mariadb-server
 RUN apt-get install -y php-fpm php-mysql
 
 # wget - widget to open url and download file on url
-RUN apt-get install -y wget
+RUN apt-get install -y wget vim
 
 
 
-
+# moving srcs files to root directory in docker os (debian:buster)
 COPY ./srcs/init.sh ./
-COPY ./srcs/mysql_setup.sql ./
-# moving to root because site folder isn't created yet
 COPY ./srcs/nginx.conf ./
-COPY ./srcs/index.php ./
+COPY ./srcs/wp-config.php ./
+COPY ./srcs/config.inc.php ./
 
 # change current working directory
 WORKDIR /var/www/
@@ -35,8 +34,8 @@ RUN tar -xzvf latest.tar.gz
 
 WORKDIR /var/www/wordpress
 RUN wget https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-english.tar.gz
-RUN tar -xzvf phpMyAdmin-5.0.4-english.tar.gz
-RUN mv phpMyAdmin-5.0.4-english/ phpmyadmin
+RUN tar -xzvf phpMyAdmin-5.0.4-english.tar.gz && mv phpMyAdmin-5.0.4-english/ phpmyadmin
+
 
 
 CMD bash /init.sh
