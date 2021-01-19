@@ -10,14 +10,12 @@ RUN apt-get install -y nginx
 # mariadb: mysql database
 RUN apt-get install -y mariadb-server
 
-# php-fpm: "PHP fastCGI process manager" - bridge between server and php scripts ? 
+# php-fpm: "PHP fastCGI process manager"
 # php-mysql: allows to write mysql queries in php script
 RUN apt-get install -y php-fpm php-mysql
 
 # wget - widget to open url and download file on url
-RUN apt-get install -y wget vim
-
-
+RUN apt-get install -y wget
 
 # moving srcs files to root directory in docker os (debian:buster)
 COPY ./srcs/init.sh ./
@@ -36,17 +34,4 @@ WORKDIR /var/www/wordpress
 RUN wget https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-english.tar.gz
 RUN tar -xzvf phpMyAdmin-5.0.4-english.tar.gz && mv phpMyAdmin-5.0.4-english/ phpmyadmin
 
-
-
 CMD bash /init.sh
-
-# COPY nginx.conf /etc/nginx/nginx.conf
-# NOTES
-# - You sould use apt-get update and apt-get install in one RUN instruction
-
-
-
-
-# Notes
-	# Layers do get reused.
-	# apt-get -y flag is for "auto-yes"
