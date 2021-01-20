@@ -15,7 +15,7 @@ RUN apt-get install -y mariadb-server
 RUN apt-get install -y php-fpm php-mysql
 
 # wget - widget to open url and download file on url
-RUN apt-get install -y wget
+RUN apt-get install -y wget vim
 
 # moving srcs files to root directory in docker os (debian:buster)
 COPY ./srcs/init.sh ./
